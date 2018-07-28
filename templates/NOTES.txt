@@ -1,0 +1,23 @@
+1. Visit the application URL:
+{{- if .Values.istio.enabled }}
+{{- range .Values.virtualservice.hosts }}
+  http://{{ . }}
+{{- end }}
+{{- if contains "NodePort" .Values.service.type }}
+  export NODE_PORT=$(kubectl get --namespace {{ .Values.namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ template "spin-kub-helm-demo.fullname" . }})
+  export NODE_IP=$(kubectl get nodes --namespace {{ .Values.namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT
+{{- end }}
+{{- if .Values.istio.enabled }}
+2. Get the Istio Gateway IP by running these command:
+           NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch the status of by running 'kubectl get virtualservice -w {{ template "spin-kub-helm-demo.fullname" . }}'
+  export SERVICE_IP=$(kubectl get svc --namespace istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+  echo $SERVICE_IP
+{{- end }}
+{{- if contains "ClusterIP" .Values.service.type }}
+  export POD_NAME=$(kubectl get pods --namespace {{ .Values.namespace }} -l "app={{ template "spin-kub-helm-demo.name" . }},release={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl port-forward --namespace {{ .Values.namespace }} $POD_NAME 8080:8000
+{{- end }}
+{{- end }}

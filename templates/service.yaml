@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "spin-kub-helm-demo.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ template "spin-kub-helm-demo.name" . }}
+    chart: {{ template "spin-kub-helm-demo.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 8000
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "spin-kub-helm-demo.name" . }}
+    release: {{ .Release.Name }}
