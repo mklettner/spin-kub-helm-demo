@@ -6,3 +6,7 @@ replicaCount: 1
 
 image:
   colour: blue
+
+virtualservice:
+  hosts:
+    - demo-q.ebcont.com

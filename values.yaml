@@ -8,7 +8,7 @@ namespace: spinnaker
 
 image:
   repository: index.docker.io/mklettner/spin-kub-v2-demo
-  tag: release-1.9
+  tag: release-1.12
   pullPolicy: IfNotPresent
   colour: green
 
