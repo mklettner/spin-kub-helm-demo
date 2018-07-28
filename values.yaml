@@ -10,6 +10,7 @@ image:
   repository: index.docker.io/mklettner/spin-kub-v2-demo
   tag: release-1.9
   pullPolicy: IfNotPresent
+  colour: green
 
 service:
   type: ClusterIP

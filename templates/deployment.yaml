@@ -36,6 +36,9 @@ spec:
             httpGet:
               path: /
               port: 8000
+          env:
+          - name: COLOUR
+            value: {{ .Values.image.colour }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
