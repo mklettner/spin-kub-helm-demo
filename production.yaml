@@ -5,4 +5,4 @@
 replicaCount: 2
 
 image:
-  colour: red
+  colour: orange
